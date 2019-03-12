@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
-import EmailResults from './EmailResults';
+// import EmailResults from './EmailResults';
 
 class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            lengthYears: 5,
-            sprintLength: 12,
-            interest: 0.05
+            principal: 200000,
+            mortgageLengthYears: 25,
+            paymentFreqPerYear: 12,
+            interest: 3.54
         }
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleLengthChange = this.handleLengthChange.bind(this);
-        this.handleSprintLengthChange = this.handleSprintLengthChange.bind(this);
+        this.handlePrincipalChange = this.handlePrincipalChange.bind(this);
+        this.handleMortgageLengthChange = this.handleMortgageLengthChange.bind(this);
+        this.handlePaymentFreqChange = this.handlePaymentFreqChange.bind(this);
+        this.handleInterestChange = this.handleInterestChange.bind(this);
     }
 
-    handleNameChange(event) {
-        this.setState({name: event.target.value})
+    handlePrincipalChange(event) {
+        this.setState({principal: event.target.value})
     }
-    handleLengthChange(event) {
-        this.setState({lengthYears: event.target.value})
+    handleMortgageLengthChange(event) {
+        this.setState({mortgageLengthYears: event.target.value})
     }
 
-    handleSprintLengthChange(event) {
-        this.setState({sprintLength: event.target.value})
+    handlePaymentFreqChange(event) {
+        this.setState({paymentFreqPerYear: event.target.value})
+    }
+
+    handleInterestChange(event) {
+        this.setState({interest: event.target.value});
     }
 
     render() {    
@@ -33,22 +38,22 @@ class Form extends Component {
             <form>
 
                 <label>
-                    Lab Name:
-                    <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+                    Principal:
+                    <input type="number" value={this.state.principal} onChange={this.handlePrincipalChange}/>
                 </label>
 
                 <br></br>
 
                 <label>
-                    MVP Release Years:
-                    <input type="number" value={this.state.lengthYears} onChange={this.handleLengthChange}/>
+                    Term Length (Amortized, Years):
+                    <input type="number" value={this.state.mortgageLengthYears} onChange={this.handleMortgageLengthChange}/>
                 </label>
 
                 <br></br>
 
                 <label>
-                    Sprint Length:
-                    <select value={this.state.sprintLength} onChange={this.handleSprintLengthChange}>
+                    Payment Frequency:
+                    <select value={this.state.paymentFreqPerYear} onChange={this.handlePaymentFreqChange}>
                         <option value={26}>Biweekly</option>
                         <option value={12}>Monthly</option>
                     </select>
@@ -58,21 +63,27 @@ class Form extends Component {
 
                 <label>
                     Interest Rate:
-                    <input type="number" value={this.state.interest} onChange={this.handleLengthChange}/>
+                    <input type="number" value={this.state.interest} onChange={this.handleInterestChange}/>
                 </label>
             
-                <br/>
-                <input type="submit" value="Submit" />
-            
             </form>
+            
+            <br>
+            </br>
+            Payment: { this.calculatePayment() }
 
-            <br/>
-            Return: { this.state.lengthYears * this.state.sprintLength * this.state.interest }
             <br></br><br/><br/>
             {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
             {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}
         </div>
         )
+    }
+    calculatePayment()
+    {
+        const apr = this.state.interest/1200;
+        const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
+        var payment = this.state.principal*(apr * Math.pow((1 + apr), term))/(Math.pow((1 + apr), term) - 1);
+        return payment;
     }
 }
 
