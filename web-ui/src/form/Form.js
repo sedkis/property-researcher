@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import EmailResults from './EmailResults';
+import CurrencyFormat from 'react-currency-format';
 
 class Form extends Component {
     constructor(props) {
@@ -70,7 +71,21 @@ class Form extends Component {
             
             <br>
             </br>
-            Payment: { this.calculatePayment() }
+            Payment: <CurrencyFormat value={ this.calculatePayment().toFixed(2) } displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            <br></br>
+            Equity gained per year: <CurrencyFormat value={(this.state.principal - this.calculateBalance()).toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+
+
+
+            <hr></hr>
+
+            <h3>Cash flow projection</h3>
+
+            <form>
+                
+
+
+            </form>
 
             <br></br><br/><br/>
             {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
@@ -83,7 +98,19 @@ class Form extends Component {
         const apr = this.state.interest/1200;
         const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
         var payment = this.state.principal*(apr * Math.pow((1 + apr), term))/(Math.pow((1 + apr), term) - 1);
-        return '$' + payment.toFixed(2);
+        return payment;
+    }
+
+    calculateBalance()
+    {
+        const apr = this.state.interest/1200;
+        const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
+        return this.state.principal*((Math.pow(1+apr, term)-Math.pow(1+apr, 12)) / (Math.pow(1+apr, term) -1));
+    }
+
+    calculateEquityGainedAfterYear()
+    {
+
     }
 }
 
