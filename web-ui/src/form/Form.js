@@ -1,90 +1,52 @@
 import React, { Component } from 'react';
 // import EmailResults from './EmailResults';
 import CurrencyFormat from 'react-currency-format';
+import MortgageCalculator from './MortgageCalculator';
 
 class Form extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             principal: 200000,
             mortgageLengthYears: 25,
             paymentFreqPerYear: 12,
             interest: 3.54
         }
+
+        // Binding to let the UI use these 
         this.handlePrincipalChange = this.handlePrincipalChange.bind(this);
         this.handleMortgageLengthChange = this.handleMortgageLengthChange.bind(this);
         this.handlePaymentFreqChange = this.handlePaymentFreqChange.bind(this);
         this.handleInterestChange = this.handleInterestChange.bind(this);
+        // Binding to state to pass to MortgageCalculator
+        this.state.handlePrincipalChange = this.handlePrincipalChange;
+        this.state.handleMortgageLengthChange = this.handleMortgageLengthChange;
+        this.state.handlePaymentFreqChange = this.handlePaymentFreqChange;
+        this.state.handleInterestChange = this.handleInterestChange;
     }
 
-    handlePrincipalChange(event) {
-        this.setState({principal: event.target.value})
-    }
-    handleMortgageLengthChange(event) {
-        this.setState({mortgageLengthYears: event.target.value})
-    }
-
-    handlePaymentFreqChange(event) {
-        this.setState({paymentFreqPerYear: event.target.value})
-    }
-
-    handleInterestChange(event) {
-        this.setState({interest: event.target.value});
-    }
-
+    handlePrincipalChange(event) {this.setState({principal: event.target.value})}
+    handleMortgageLengthChange(event) {this.setState({mortgageLengthYears: event.target.value})}
+    handlePaymentFreqChange(event) {this.setState({paymentFreqPerYear: event.target.value})}
+    handleInterestChange(event) { this.setState({interest: event.target.value});}
+    
     render() {    
 
         return (
         <div>
-            <form>
-
-                <label>
-                    Principal:
-                    <input type="number" value={this.state.principal} onChange={this.handlePrincipalChange}/>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Term Length (Amortized, Years):
-                    <input type="number" value={this.state.mortgageLengthYears} onChange={this.handleMortgageLengthChange}/>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Payment Frequency:
-                    <select value={this.state.paymentFreqPerYear} onChange={this.handlePaymentFreqChange}>
-                        <option value={26}>Biweekly</option>
-                        <option value={12}>Monthly</option>
-                    </select>
-                </label>
-
-                <br></br>
-
-                <label>
-                    Interest Rate:
-                    <input type="number" value={this.state.interest} onChange={this.handleInterestChange}/>
-                </label>
-            
-            </form>
-            
-            <br>
-            </br>
+            <MortgageCalculator 
+                stateProp = {Object.assign({}, this.state)}
+            ></MortgageCalculator>
+            <br/>
             Payment: <CurrencyFormat value={ this.calculatePayment().toFixed(2) } displayType={'text'} thousandSeparator={true} prefix={'$'} />
-            <br></br>
+            <br/>
             Equity gained per year: <CurrencyFormat value={(this.state.principal - this.calculateBalance()).toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-
-
-
+            
             <hr></hr>
 
-            <h3>Cash flow projection</h3>
-
             <form>
-                
-
-
+            <h3>Cash flow projection</h3>
             </form>
 
             <br></br><br/><br/>
@@ -93,23 +55,21 @@ class Form extends Component {
         </div>
         )
     }
-    calculatePayment()
-    {
+
+    calculatePayment() {
         const apr = this.state.interest/1200;
         const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
         var payment = this.state.principal*(apr * Math.pow((1 + apr), term))/(Math.pow((1 + apr), term) - 1);
         return payment;
     }
 
-    calculateBalance()
-    {
+    calculateBalance() {
         const apr = this.state.interest/1200;
         const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
         return this.state.principal*((Math.pow(1+apr, term)-Math.pow(1+apr, 12)) / (Math.pow(1+apr, term) -1));
     }
 
-    calculateEquityGainedAfterYear()
-    {
+    calculateEquityGainedAfterYear() {
 
     }
 }
