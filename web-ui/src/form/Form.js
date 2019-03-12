@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EmailResults from './EmailResults';
 
 class Form extends Component {
     constructor(props) {
@@ -12,7 +13,6 @@ class Form extends Component {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleLengthChange = this.handleLengthChange.bind(this);
         this.handleSprintLengthChange = this.handleSprintLengthChange.bind(this);
-        this.handleLengthChange = this.handleLengthChange.bind(this);
     }
 
     handleNameChange(event) {
@@ -68,8 +68,9 @@ class Form extends Component {
 
             <br/>
             Return: { this.state.lengthYears * this.state.sprintLength * this.state.interest }
-            <br></br>
-            Email results to me:
+            <br></br><br/><br/>
+            {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
+            {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}
         </div>
         )
     }
