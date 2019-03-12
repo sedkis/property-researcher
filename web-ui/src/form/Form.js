@@ -83,7 +83,7 @@ class Form extends Component {
         const apr = this.state.interest/1200;
         const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
         var payment = this.state.principal*(apr * Math.pow((1 + apr), term))/(Math.pow((1 + apr), term) - 1);
-        return payment;
+        return '$' + payment.toFixed(2);
     }
 }
 
