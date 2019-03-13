@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import MortgageCalculator from './MortgageCalculator';
 import OperatingExpenses from './OperatingExpenses';
 import Currency from '../formatters/Currency'
-
+import DownPayment from './DownPayment.js'
 class Form extends Component {
     constructor(props) {
         super(props);
@@ -57,14 +57,18 @@ class Form extends Component {
                             onChange={this.handleEventChange}/>
                 </label><br/>
                 <label>
-                    Monthly Cash Flow:  {<p style={this.getCashFlowStyle()}>{ this.calculateCashFlow() }</p>}
+                    Monthly Cash Flow: <p style={this.getCashFlowStyle()}><Currency value={this.calculateCashFlow()}></Currency></p>
                 </label>
 
                 <h3>Yearly Turnover</h3>
-                equity gain: {this.calculateEquityGainedAfterYear()} <br/>
-                cash flow gain: {this.calculateCashFlow() * 12} <br/>
-                Yearly Net Income: {this.calculateEquityGainedAfterYear() + this.calculateCashFlow() * 12}
+                equity gain: <Currency value={this.calculateEquityGainedAfterYear()}></Currency> <br/>
+                cash flow gain: <Currency value={this.calculateCashFlow() * 12}></Currency><br/>
+                Yearly Net Income: <Currency value={this.calculateYearlyIncome()}></Currency>
 
+           </form>
+
+           <form>
+                <DownPayment yearlyIncome = {Object.assign({}, this.state)}></DownPayment>
            </form>
 
 
@@ -105,6 +109,10 @@ class Form extends Component {
     getCashFlowStyle() {
         return ((this.state.rent - this.calculateOperatingExpenses()) > 0) ?
         {color:'green', display:'inline'} : {color:'red', display:'inline'}
+    }
+
+    calculateYearlyIncome() {
+        return this.calculateEquityGainedAfterYear() + (this.calculateCashFlow() * 12);
     }
 }
 
