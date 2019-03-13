@@ -16,7 +16,8 @@ class Form extends Component {
             utilities: 400,
             propertyTax: 150,
             insurance: 175,
-            maintenance: 200
+            maintenance: 200,
+            rent: 2500
         }
 
         // Binding to let the UI use these 
@@ -52,20 +53,30 @@ class Form extends Component {
                                                 thousandSeparator={true} 
                                                 prefix={'$'} />
            <br/>
+           
            <form>
                 <label>
                     Monthly Rent Collected:
                     <input type="number" 
+                            name='rent'
                             value={this.state.rent} 
                             onChange={this.handleEventChange}/>
                 </label>
                 <br/>
                 <label>
-                    Monthly Cash Flow:
-                    
+                    <br/>
+                    Monthly Cash Flow:  {<p style={this.getCashFlowStyle()}>{ this.calculateCashFlow() }</p>}
                 </label>
 
+                <h3>Yearly Turnover</h3>
+                equity gain: {this.calculateEquityGainedAfterYear()} <br/>
+                cash flow gain: {this.calculateCashFlow() * 12} <br/>
+                Yearly Net Income: {this.calculateEquityGainedAfterYear() + this.calculateCashFlow() * 12}
+
            </form>
+
+
+
             {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
             {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}
         </div>
@@ -94,6 +105,15 @@ class Form extends Component {
                 this.state.propertyTax +
                 this.state.insurance + 
                 this.state.maintenance + this.calculatePayment();
+    }
+
+    calculateCashFlow() {
+        return this.state.rent - this.calculateOperatingExpenses()
+    }
+
+    getCashFlowStyle() {
+        return ((this.state.rent - this.calculateOperatingExpenses()) > 0) ?
+        {color:'green', display:'inline'} : {color:'red', display:'inline'}
     }
 }
 
