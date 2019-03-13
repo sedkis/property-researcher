@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 // import EmailResults from './EmailResults';
-import CurrencyFormat from 'react-currency-format';
 import MortgageCalculator from './MortgageCalculator';
 import OperatingExpenses from './OperatingExpenses';
+import Currency from '../formatters/Currency'
 
 class Form extends Component {
     constructor(props) {
@@ -29,30 +29,24 @@ class Form extends Component {
     }
     
     render() {    
-
         return (
         <div>
             <MortgageCalculator 
                 stateProp = {Object.assign({}, this.state)}
                 onClick = {this.handleEventChange}
             ></MortgageCalculator>
-            <br/>
-            Monthly Payment: <CurrencyFormat value={ this.calculatePayment().toFixed(2) } displayType={'text'} thousandSeparator={true} prefix={'$'} />
-            <br/>
-            Equity gained per year: <CurrencyFormat value={this.calculateEquityGainedAfterYear().toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            
+            Monthly Payment: <Currency value={this.calculatePayment()}></Currency><br/>
+            Equity gained per year: <Currency value={this.calculateEquityGainedAfterYear()}></Currency>
             
             <hr/>
 
             <OperatingExpenses 
                 stateProp = {Object.assign({}, this.state)}
                 onClick = {this.handleEventChange}
-            ></OperatingExpenses>
-            <br></br>
-            Operating Expenses: <CurrencyFormat value={ this.calculateOperatingExpenses() } 
-                                                displayType={'text'} 
-                                                thousandSeparator={true} 
-                                                prefix={'$'} />
-           <br/>
+            ></OperatingExpenses> 
+            Operating Expenses: <Currency value={this.calculateOperatingExpenses()}></Currency>
+           
            
            <form>
                 <label>
@@ -61,10 +55,8 @@ class Form extends Component {
                             name='rent'
                             value={this.state.rent} 
                             onChange={this.handleEventChange}/>
-                </label>
-                <br/>
+                </label><br/>
                 <label>
-                    <br/>
                     Monthly Cash Flow:  {<p style={this.getCashFlowStyle()}>{ this.calculateCashFlow() }</p>}
                 </label>
 
@@ -74,7 +66,6 @@ class Form extends Component {
                 Yearly Net Income: {this.calculateEquityGainedAfterYear() + this.calculateCashFlow() * 12}
 
            </form>
-
 
 
             {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
