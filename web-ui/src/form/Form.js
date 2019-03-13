@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import EmailResults from './EmailResults';
 import CurrencyFormat from 'react-currency-format';
 import MortgageCalculator from './MortgageCalculator';
+import OperatingExpenses from './OperatingExpenses';
 
 class Form extends Component {
     constructor(props) {
@@ -11,25 +12,20 @@ class Form extends Component {
             principal: 200000,
             mortgageLengthYears: 25,
             paymentFreqPerYear: 12,
-            interest: 3.54
+            interest: 3.54,
+            utilities: 400,
+            propertyTax: 150,
+            insurance: 175,
+            maintenance: 200
         }
 
         // Binding to let the UI use these 
-        this.handlePrincipalChange = this.handlePrincipalChange.bind(this);
-        this.handleMortgageLengthChange = this.handleMortgageLengthChange.bind(this);
-        this.handlePaymentFreqChange = this.handlePaymentFreqChange.bind(this);
-        this.handleInterestChange = this.handleInterestChange.bind(this);
-        // Binding to state to pass to MortgageCalculator
-        this.state.handlePrincipalChange = this.handlePrincipalChange;
-        this.state.handleMortgageLengthChange = this.handleMortgageLengthChange;
-        this.state.handlePaymentFreqChange = this.handlePaymentFreqChange;
-        this.state.handleInterestChange = this.handleInterestChange;
+        this.handleEventChange = this.handleEventChange.bind(this);
     }
 
-    handlePrincipalChange(event) {this.setState({principal: event.target.value})}
-    handleMortgageLengthChange(event) {this.setState({mortgageLengthYears: event.target.value})}
-    handlePaymentFreqChange(event) {this.setState({paymentFreqPerYear: event.target.value})}
-    handleInterestChange(event) { this.setState({interest: event.target.value});}
+    handleEventChange(event) {
+        this.setState({ [event.target.name] : parseInt(event.target.value)})
+    }
     
     render() {    
 
@@ -37,19 +33,39 @@ class Form extends Component {
         <div>
             <MortgageCalculator 
                 stateProp = {Object.assign({}, this.state)}
+                onClick = {this.handleEventChange}
             ></MortgageCalculator>
             <br/>
-            Payment: <CurrencyFormat value={ this.calculatePayment().toFixed(2) } displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            Monthly Payment: <CurrencyFormat value={ this.calculatePayment().toFixed(2) } displayType={'text'} thousandSeparator={true} prefix={'$'} />
             <br/>
-            Equity gained per year: <CurrencyFormat value={(this.state.principal - this.calculateBalance()).toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            Equity gained per year: <CurrencyFormat value={this.calculateEquityGainedAfterYear().toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
             
-            <hr></hr>
+            <hr/>
 
-            <form>
-            <h3>Cash flow projection</h3>
-            </form>
+            <OperatingExpenses 
+                stateProp = {Object.assign({}, this.state)}
+                onClick = {this.handleEventChange}
+            ></OperatingExpenses>
+            <br></br>
+            Operating Expenses: <CurrencyFormat value={ this.calculateOperatingExpenses() } 
+                                                displayType={'text'} 
+                                                thousandSeparator={true} 
+                                                prefix={'$'} />
+           <br/>
+           <form>
+                <label>
+                    Monthly Rent Collected:
+                    <input type="number" 
+                            value={this.state.rent} 
+                            onChange={this.handleEventChange}/>
+                </label>
+                <br/>
+                <label>
+                    Monthly Cash Flow:
+                    
+                </label>
 
-            <br></br><br/><br/>
+           </form>
             {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}
             {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}
         </div>
@@ -70,7 +86,14 @@ class Form extends Component {
     }
 
     calculateEquityGainedAfterYear() {
+        return this.state.principal - this.calculateBalance()
+    }
 
+    calculateOperatingExpenses() {
+        return this.state.utilities.valueOf() + 
+                this.state.propertyTax +
+                this.state.insurance + 
+                this.state.maintenance + this.calculatePayment();
     }
 }
 

@@ -4,12 +4,13 @@ class MortgageCalculator extends Component {
     render() {
         return (
             <form>
-
+                <h3>Mortgage Expenses</h3>
                 <label>
                     Principal:
-                    <input type="number" 
+                    <input type={'number'} 
+                            name='principal'
                             value={this.props.stateProp.principal} 
-                            onChange={this.props.stateProp.handlePrincipalChange}/>
+                            onChange={this.props.onClick}/>
                 </label>
 
                 <br></br>
@@ -17,8 +18,9 @@ class MortgageCalculator extends Component {
                 <label>
                     Term Length (Amortized, Years):
                     <input type="number" 
+                            name='mortgageLengthYears'
                             value={this.props.stateProp.mortgageLengthYears} 
-                            onChange={this.props.stateProp.handleMortgageLengthChange}/>
+                            onChange={this.props.onClick}/>
                 </label>
 
                 <br></br>
@@ -26,7 +28,8 @@ class MortgageCalculator extends Component {
                 <label>
                     Payment Frequency:
                     <select value={this.props.stateProp.paymentFreqPerYear} 
-                            onChange={this.props.stateProp.handlePaymentFreqChange}>
+                            name='paymentFreqPerYear'
+                            onChange={this.props.onClick}>
                         <option value={26}>Biweekly</option>
                         <option value={12}>Monthly</option>
                     </select>
@@ -37,8 +40,9 @@ class MortgageCalculator extends Component {
                 <label>
                     Interest Rate:
                     <input type="number" 
+                            name='interest'
                             value={this.props.stateProp.interest} 
-                            onChange={this.props.stateProp.handleInterestChange}/>
+                            onChange={this.props.onClick}/>
                 </label>
             
             </form>
