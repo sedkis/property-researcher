@@ -78,8 +78,9 @@ class Form extends Component {
           Yearly Net Income:{" "}
           <Currency value={this.calculateYearlyIncome()}> </Currency>
         </form>
+        <hr/>
         <form>
-          <DownPayment yearlyIncome={Object.assign({}, this.state)}>
+          <DownPayment yearlyIncome={this.calculateYearlyIncome()}>
             {" "}
           </DownPayment>{" "}
         </form>
