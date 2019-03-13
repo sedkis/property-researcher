@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Currency from 'react-currency-format'
 
 class DownPayment extends Component {
     constructor(props) {
