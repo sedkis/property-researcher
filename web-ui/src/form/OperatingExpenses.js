@@ -6,7 +6,7 @@ class OperatingExpenses extends Component {
       <form>
         <h3>Monthly Operating Expenses</h3>
         <label>
-          Utilities:
+          <p>Utilities:</p>
           <input
             type="number"
             name="utilities"
@@ -15,10 +15,8 @@ class OperatingExpenses extends Component {
           />
         </label>
 
-        <br />
-
         <label>
-          Property Tax:
+          <p>Property Tax:</p>
           <input
             type="number"
             name="propertyTax"
@@ -27,10 +25,8 @@ class OperatingExpenses extends Component {
           />
         </label>
 
-        <br />
-
         <label>
-          Insurance:
+          <p>Insurance:</p>
           <input
             type="number"
             name="insurance"
@@ -39,10 +35,8 @@ class OperatingExpenses extends Component {
           />
         </label>
 
-        <br />
-
         <label>
-          Maintenance:
+          <p>Maintenance:</p>
           {/* <select value={this.props.stateProp.paymentFreqPerYear} 
                             onChange={this.props.stateProp.handlePaymentFreqChange}>
                         <option value={'%'}>Percenteage</option>
@@ -55,8 +49,6 @@ class OperatingExpenses extends Component {
             onChange={this.props.onClick}
           />
         </label>
-
-        <br />
       </form>
     );
   }

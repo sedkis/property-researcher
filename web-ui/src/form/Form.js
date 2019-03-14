@@ -4,6 +4,7 @@ import MortgageCalculator from "./MortgageCalculator";
 import OperatingExpenses from "./OperatingExpenses";
 import Currency from "../formatters/Currency";
 import DownPayment from "./DownPayment.js";
+import "./Form.css";
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -33,24 +34,38 @@ class Form extends Component {
   render() {
     return (
       <div>
-        <MortgageCalculator
-          stateProp={Object.assign({}, this.state)}
-          onClick={this.handleEventChange}
-        />
-        Monthly Payment: <Currency value={this.calculatePayment()}> </Currency>
-        <br />
-        Equity gained per year:{" "}
-        <Currency value={this.calculateEquityGainedAfterYear()}> </Currency>
-        <hr />
-        <OperatingExpenses
-          stateProp={Object.assign({}, this.state)}
-          onClick={this.handleEventChange}
-        />
-        Operating Expenses:{" "}
-        <Currency value={this.calculateOperatingExpenses()}> </Currency>
+        {/* Mortgage Expenses */}
+        <div className='logic-section col-lg-6'>
+          <MortgageCalculator
+            stateProp={Object.assign({}, this.state)}
+            onClick={this.handleEventChange}
+          />
+          <div className='totals'>
+            Monthly Payment: <Currency value={this.calculatePayment()}> </Currency>
+          </div>
+          <div className='totals'>
+            Equity gained per year: <Currency value={this.calculateEquityGainedAfterYear()}> </Currency>
+          </div>
+        </div>
+
+        {/* Operating Expenses */}
+        <div className='logic-section col-lg-6'>
+          <OperatingExpenses
+            stateProp={Object.assign({}, this.state)}
+            onClick={this.handleEventChange}
+          />
+          <div className='totals'>
+            Operating Expenses: <Currency value={this.calculateOperatingExpenses()}> </Currency>
+          </div>
+        </div>
+        
+        <hr/>
+
+        {/* Totals! */}
         <form>
+          <h3>Cashflow</h3>
           <label>
-            Monthly Rent Collected:
+            <p>Monthly Rent Collected:</p>
             <input
               type="number"
               name="rent"
@@ -58,25 +73,27 @@ class Form extends Component {
               onChange={this.handleEventChange}
             />{" "}
           </label>
-          <br />
+          
           <label>
-            Monthly Cash Flow:{" "}
+            <p>Monthly Cash Flow:{" "}</p>
             <p style={this.getCashFlowStyle()}>
               {" "}
               <Currency value={this.calculateCashFlow()}> </Currency>
             </p>
           </label>
           <h3> Yearly Turnover </h3>
-          equity gain:{" "}
-          <Currency value={this.calculateEquityGainedAfterYear()}>
-            {" "}
-          </Currency>{" "}
-          <br />
-          cash flow gain:{" "}
-          <Currency value={this.calculateCashFlow() * 12}> </Currency>
-          <br />
-          Yearly Net Income:{" "}
-          <Currency value={this.calculateYearlyIncome()}> </Currency>
+          <div className='totals'>
+            equity gain:{" "}
+            <Currency value={this.calculateEquityGainedAfterYear()}>
+              {" "}
+            </Currency>{" "}
+            <br />
+            cash flow gain:{" "}
+            <Currency value={this.calculateCashFlow() * 12}> </Currency>
+            <br />
+            Yearly Net Income:{" "}
+            <Currency value={this.calculateYearlyIncome()}> </Currency>
+          </div>
         </form>
         <hr/>
         <form>

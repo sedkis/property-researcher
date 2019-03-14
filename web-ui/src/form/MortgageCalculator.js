@@ -6,19 +6,17 @@ class MortgageCalculator extends Component {
       <form>
         <h3>Mortgage Expenses</h3>
         <label>
-          Principal:
+          <p>Principal:</p>
           <input
             type={"number"}
             name="principal"
             value={this.props.stateProp.principal}
             onChange={this.props.onClick}
           />
-        </label>
-
-        <br />
+        </label>   
 
         <label>
-          Term Length (Amortized, Years):
+          <p>Term Length (Amortized, Years):</p>
           <input
             type="number"
             name="mortgageLengthYears"
@@ -27,10 +25,8 @@ class MortgageCalculator extends Component {
           />
         </label>
 
-        <br />
-
         <label>
-          Payment Frequency:
+        <p>Payment Frequency:</p>
           <select
             value={this.props.stateProp.paymentFreqPerYear}
             name="paymentFreqPerYear"
@@ -41,10 +37,8 @@ class MortgageCalculator extends Component {
           </select>
         </label>
 
-        <br />
-
         <label>
-          Interest Rate:
+        <p>Interest Rate:</p>
           <input
             type="number"
             name="interest"
