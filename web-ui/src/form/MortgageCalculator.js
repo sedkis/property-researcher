@@ -8,7 +8,7 @@ class MortgageCalculator extends Component {
           <h3>Mortgage Expenses</h3>
         </div>
         <div className="row">
-          <div className="col-md-6">Principal:</div>
+          <div className="col-md-6 text-right">Principal:</div>
             <input
               className="from-control col-md-6"
               type={"number"}
@@ -18,7 +18,7 @@ class MortgageCalculator extends Component {
             />
         </div>
         <div className="row">
-          <div className="col-md-6">Term Length (Amortized, Years):</div>
+          <div className="col-md-6 text-right">Term Length (Amortized, Years):</div>
           <input
             className="from-control col-md-6"
             type="number"
@@ -29,7 +29,7 @@ class MortgageCalculator extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-6">Payment Frequency:</div>
+          <div className="col-md-6 text-right">Payment Frequency:</div>
           <select
             className="from-control col-md-6"
             value={this.props.stateProp.paymentFreqPerYear}
@@ -42,7 +42,7 @@ class MortgageCalculator extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-6">Interest Rate:</div>
+          <div className="col-md-6 text-right">Interest Rate:</div>
           <input
             className="from-control col-md-6"
             type="number"
