@@ -33,7 +33,7 @@ class Form extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         {/* Mortgage Expenses */}
         <div className='logic-section col-lg-6'>
           <MortgageCalculator
