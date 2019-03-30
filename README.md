@@ -1,6 +1,6 @@
 # PropertyCalc
 
 Link:
-https://sabousha.github.io/property_calculator/
+https://sabousha.github.io/property-calculator/
 
 React app
