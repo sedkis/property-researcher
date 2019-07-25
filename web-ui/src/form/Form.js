@@ -27,7 +27,7 @@ class Form extends Component {
 
   handleEventChange(event) {
     this.setState({
-      [event.target.name]: parseInt(event.target.value)
+      [event.target.name]: parseFloat(event.target.value)
     });
   }
 
