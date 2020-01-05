@@ -4,7 +4,7 @@ import './Panel.css'
 class Panel extends Component {
     render() {
         return (
-            <div class="panel">
+            <div className="panel">
                 <h4>your Listings   </h4>
                 <p>Bloop</p>
                 <p>Bloop</p>

@@ -21,6 +21,10 @@ hr {
     border-top: 2px solid white;
 }
 
+.saveButton{
+    display: block;
+}
+
 .form.container-fluid {
     width: 75vw;
     margin-left: 25vw;

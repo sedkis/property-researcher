@@ -10,6 +10,7 @@ class Form extends Component {
     super(props);
 
     this.state = {
+      address: "hey you",
       principal: 200000,
       mortgageLengthYears: 25,
       paymentFreqPerYear: 12,
@@ -22,27 +23,50 @@ class Form extends Component {
     };
 
     // Binding to let the UI use these
-    this.handleEventChange = this.handleEventChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFloatChange = this.handleFloatChange.bind(this);
     this.saveProperty = this.saveProperty.bind(this);
   }
 
-  handleEventChange(event) {
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+  handleFloatChange(event) {
     this.setState({
       [event.target.name]: parseFloat(event.target.value)
     });
   }
   saveProperty(event) {
-    alert(event);
+    console.log(this.state)
   }
 
   render() {
     return (
       <div className="container-fluid form">
+        
+        <button className="saveButton" onClick={this.saveProperty}>Save</button>
+        {/* <button className="saveButton" onClick={this.saveProperty}>Duplicate</button>
+        <button className="saveButton" onClick={this.saveProperty}>Delete</button> */}
+        <div className="row">
+          <div className="">Address:</div>
+            <input
+              className="col-md-6"
+              type="text"
+              name="address"
+              value={this.state.address}
+              onChange={this.handleChange}
+            />
+        </div>
+        
+        <br></br>
+
         {/* Mortgage Expenses */}
         <div className='logic-section col-lg-6'>
           <MortgageCalculator
             stateProp={Object.assign({}, this.state)}
-            onClick={this.handleEventChange}
+            onClick={this.handleFloatChange}
           />
           <div className='totals'>
             Monthly Payment: <Currency value={this.calculatePayment()}> </Currency>
@@ -56,7 +80,7 @@ class Form extends Component {
         <div className='logic-section col-lg-6'>
           <OperatingExpenses
             stateProp={Object.assign({}, this.state)}
-            onClick={this.handleEventChange}
+            onClick={this.handleFloatChange}
           />
           <div className='totals'>
             Operating Expenses: <Currency value={this.calculateOperatingExpenses()}> </Currency>
@@ -74,7 +98,7 @@ class Form extends Component {
               type="number"
               name="rent"
               value={this.state.rent}
-              onChange={this.handleEventChange}
+              onChange={this.handleFloatChange}
             />{" "}
           </label>
           
@@ -107,8 +131,6 @@ class Form extends Component {
         </form>
         {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
         {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
-
-        <button onClick={this.saveProperty}>Save</button>
       </div>
     );
   }
