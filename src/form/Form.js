@@ -23,6 +23,7 @@ class Form extends Component {
 
     // Binding to let the UI use these
     this.handleEventChange = this.handleEventChange.bind(this);
+    this.saveProperty = this.saveProperty.bind(this);
   }
 
   handleEventChange(event) {
@@ -30,10 +31,13 @@ class Form extends Component {
       [event.target.name]: parseFloat(event.target.value)
     });
   }
+  saveProperty(event) {
+    alert(event);
+  }
 
   render() {
     return (
-      <div className="container-fluid">
+      <div className="container-fluid form">
         {/* Mortgage Expenses */}
         <div className='logic-section col-lg-6'>
           <MortgageCalculator
@@ -103,6 +107,8 @@ class Form extends Component {
         </form>
         {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
         {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
+
+        <button onClick={this.saveProperty}>Save</button>
       </div>
     );
   }

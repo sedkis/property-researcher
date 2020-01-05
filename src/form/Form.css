@@ -20,3 +20,8 @@ label input, label select {
 hr {
     border-top: 2px solid white;
 }
+
+.form.container-fluid {
+    width: 75vw;
+    margin-left: 25vw;
+}

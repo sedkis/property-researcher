@@ -4,7 +4,7 @@ class MortgageCalculator extends Component {
   render() {
     return (
       <form>
-        <div className="row">
+        <div className="">
           <h3>Mortgage Expenses</h3>
         </div>
         <div className="row">
