@@ -9,17 +9,25 @@ class Form extends Component {
   constructor(props) {
     super(props);
 
+    // please refactor this bullshit
     this.state = {
-      address: "hey you",
-      principal: 200000,
-      mortgageLengthYears: 25,
-      paymentFreqPerYear: 12,
-      interest: 3.54,
-      utilities: 400,
-      propertyTax: 150,
-      insurance: 175,
-      maintenance: 200,
-      rent: 2500
+      general: {
+        address: "hey you",
+        monthlyIncome: 2500,
+      },
+      mortgage: {
+        principal: 200000,
+        mortgageLengthYears: 25,
+        paymentFreqPerYear: 12,
+        interest: 3.54,
+      },
+      operatingCosts: {
+        utilities: 400,
+        propertyTax: 150,
+        insurance: 175,
+        maintenance: 200,
+        other: 0,
+      }
     };
 
     // Binding to let the UI use these
@@ -55,7 +63,7 @@ class Form extends Component {
               className="col-md-6"
               type="text"
               name="address"
-              value={this.state.address}
+              value={this.state.general.address}
               onChange={this.handleChange}
             />
         </div>
@@ -65,7 +73,7 @@ class Form extends Component {
         {/* Mortgage Expenses */}
         <div className='logic-section col-lg-6'>
           <MortgageCalculator
-            stateProp={Object.assign({}, this.state)}
+            stateProp={Object.assign({}, this.state.mortgage)}
             onClick={this.handleFloatChange}
           />
           <div className='totals'>
@@ -79,7 +87,7 @@ class Form extends Component {
         {/* Operating Expenses */}
         <div className='logic-section col-lg-6'>
           <OperatingExpenses
-            stateProp={Object.assign({}, this.state)}
+            stateProp={Object.assign({}, this.state.operatingCosts)}
             onClick={this.handleFloatChange}
           />
           <div className='totals'>
@@ -97,7 +105,7 @@ class Form extends Component {
             <input
               type="number"
               name="rent"
-              value={this.state.rent}
+              value={this.state.general.monthlyIncome}
               onChange={this.handleFloatChange}
             />{" "}
           </label>
@@ -136,44 +144,44 @@ class Form extends Component {
   }
 
   calculatePayment() {
-    const apr = this.state.interest / 1200;
-    const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
+    const apr = this.state.mortgage.interest / 1200;
+    const term = this.state.mortgage.paymentFreqPerYear * this.state.mortgage.mortgageLengthYears;
     var payment =
-      (this.state.principal * (apr * Math.pow(1 + apr, term))) /
+      (this.state.mortgage.principal * (apr * Math.pow(1 + apr, term))) /
       (Math.pow(1 + apr, term) - 1);
     return payment;
   }
 
   calculateBalance() {
-    const apr = this.state.interest / 1200;
-    const term = this.state.paymentFreqPerYear * this.state.mortgageLengthYears;
+    const apr = this.state.mortgage.interest / 1200;
+    const term = this.state.mortgage.paymentFreqPerYear * this.state.mortgage.mortgageLengthYears;
     return (
-      this.state.principal *
+      this.state.mortgage.principal *
       ((Math.pow(1 + apr, term) - Math.pow(1 + apr, 12)) /
         (Math.pow(1 + apr, term) - 1))
     );
   }
 
   calculateEquityGainedAfterYear() {
-    return this.state.principal - this.calculateBalance();
+    return this.state.mortgage.principal - this.calculateBalance();
   }
 
   calculateOperatingExpenses() {
     return (
-      this.state.utilities.valueOf() +
-      this.state.propertyTax +
-      this.state.insurance +
-      this.state.maintenance +
+      this.state.operatingCosts.utilities.valueOf() +
+      this.state.operatingCosts.propertyTax +
+      this.state.operatingCosts.insurance +
+      this.state.operatingCosts.maintenance +
       this.calculatePayment()
     );
   }
 
   calculateCashFlow() {
-    return this.state.rent - this.calculateOperatingExpenses();
+    return this.state.general.monthlyIncome - this.calculateOperatingExpenses();
   }
 
   getCashFlowStyle() {
-    return this.state.rent - this.calculateOperatingExpenses() > 0
+    return this.state.general.monthlyIncome - this.calculateOperatingExpenses() > 0
       ? {
           color: "green",
           display: "inline"
