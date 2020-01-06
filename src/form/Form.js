@@ -10,23 +10,7 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      property: {
-        address: "hey you",
-        monthlyIncome: 2500,
-        mortgage: {
-          principal: 200000,
-          mortgageLengthYears: 25,
-          paymentFreqPerYear: 12,
-          interest: 3.54,
-        },
-        operatingCosts: {
-          utilities: 500,
-          propertyTax: 150,
-          insurance: 175,
-          maintenance: 200,
-          other: 0,
-        }
-      }
+      property: Object.assign({},this.props.property)
     };
 
     // Binding to let the UI use these

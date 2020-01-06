@@ -5,14 +5,36 @@ import Form from './form/Form.js'
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      properties: [{address:123}],
-      currentProperty: {address:123}
+      properties: [],
+      currentProperty: {
+        address: "123 test lane",
+        monthlyIncome: 2500,
+        mortgage: {
+          principal: 200000,
+          mortgageLengthYears: 25,
+          paymentFreqPerYear: 12,
+          interest: 3.54,
+        },
+        operatingCosts: {
+          utilities: 500,
+          propertyTax: 150,
+          insurance: 175,
+          maintenance: 200,
+          other: 0,
+        }
+      }
     }
     this.addPropertyToList = this.addPropertyToList.bind(this)
-  }
 
+    // Get properties
+    fetch('http://www.tyk-test.com:8080/properties/')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ properties: data })
+      })
+      .catch(console.log)
+  }
 
   render() {
     return (
@@ -37,11 +59,26 @@ class App extends Component {
   }
 
   addPropertyToList(property) {
-    var newProps = this.state.properties
-    newProps.push(property)
-    this.setState({
-      properties: newProps
-    })
+    // persist then show in browser
+    fetch('https://httpbin.org/post', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...property
+      })
+    }).then(res => res.json())
+      .then((data) => {
+        // After save, fetch new properties
+        var newProps = this.state.properties
+        newProps.push(property)
+        this.setState({
+          properties: newProps
+        })
+      })
+      .catch(console.log)
   }
 
   getPanelContent() {
@@ -63,32 +100,5 @@ class App extends Component {
     return panelContent
   }
 }
-
-// const mockPayload = [
-//   {
-//     "address": "55 hale street",
-//     "insurance": 175,
-//     "interest": 3.54,
-//     "maintenance": 200,
-//     "mortgageLengthYears": 25,
-//     "paymentFreqPerYear": 12,
-//     "principal": 450000,
-//     "propertyTax": 150,
-//     "rent": 2500,
-//     "utilities": 400
-//   },
-//   {
-//     "address": "810 wild rose",
-//     "insurance": 175,
-//     "interest": 3.54,
-//     "maintenance": 200,
-//     "mortgageLengthYears": 25,
-//     "paymentFreqPerYear": 12,
-//     "principal": 200000,
-//     "propertyTax": 150,
-//     "rent": 2500,
-//     "utilities": 400
-//   }
-// ]
 
 export default App;
