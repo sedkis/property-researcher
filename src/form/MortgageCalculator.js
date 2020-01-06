@@ -11,10 +11,10 @@ class MortgageCalculator extends Component {
           <div className="col-md-6 text-right">Principal:</div>
             <input
               className="from-control col-md-6"
-              type={"number"}
+              type="number"
               name="principal"
               value={this.props.stateProp.principal}
-              onChange={this.props.onClick}
+              onChange={this.props.onFloatChange}
             />
         </div>
         <div className="row">
@@ -24,7 +24,7 @@ class MortgageCalculator extends Component {
             type="number"
             name="mortgageLengthYears"
             value={this.props.stateProp.mortgageLengthYears}
-            onChange={this.props.onClick}
+            onChange={this.props.onFloatChange}
           />
         </div>
 
@@ -34,7 +34,7 @@ class MortgageCalculator extends Component {
             className="from-control col-md-6"
             value={this.props.stateProp.paymentFreqPerYear}
             name="paymentFreqPerYear"
-            onChange={this.props.onClick}
+            onChange={this.props.onFloatChange}
           >
             <option value={26}>Biweekly</option>
             <option value={12}>Monthly</option>
@@ -48,7 +48,7 @@ class MortgageCalculator extends Component {
             type="number"
             name="interest"
             value={this.props.stateProp.interest}
-            onChange={this.props.onClick}
+            onChange={this.props.onFloatChange}
           />
         </div>
       </form>

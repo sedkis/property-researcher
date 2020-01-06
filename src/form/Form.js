@@ -9,72 +9,100 @@ class Form extends Component {
   constructor(props) {
     super(props);
 
-    // please refactor this bullshit
     this.state = {
-      general: {
+      property: {
         address: "hey you",
         monthlyIncome: 2500,
-      },
-      mortgage: {
-        principal: 200000,
-        mortgageLengthYears: 25,
-        paymentFreqPerYear: 12,
-        interest: 3.54,
-      },
-      operatingCosts: {
-        utilities: 400,
-        propertyTax: 150,
-        insurance: 175,
-        maintenance: 200,
-        other: 0,
+        mortgage: {
+          principal: 200000,
+          mortgageLengthYears: 25,
+          paymentFreqPerYear: 12,
+          interest: 3.54,
+        },
+        operatingCosts: {
+          utilities: 500,
+          propertyTax: 150,
+          insurance: 175,
+          maintenance: 200,
+          other: 0,
+        }
       }
     };
 
     // Binding to let the UI use these
-    this.handleChange = this.handleChange.bind(this);
+    this.handleOperatingCostsFloatChange = this.handleOperatingCostsFloatChange.bind(this);
+    this.handleMortgageFloatChange = this.handleMortgageFloatChange.bind(this);
+    this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleFloatChange = this.handleFloatChange.bind(this);
     this.saveProperty = this.saveProperty.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+  copyProperty(){
+    return Object.assign({},{
+      mortgage: this.state.property.mortgage,
+      operatingCosts: this.state.property.operatingCosts,
+      monthlyIncome: this.state.property.monthlyIncome,
+      address: this.state.property.address
+    })
   }
+
+  handleAddressChange(event) {
+    var property = this.copyProperty()
+    property.address = event.target.value;
+    this.setState({property})
+  }
+
   handleFloatChange(event) {
-    this.setState({
-      [event.target.name]: parseFloat(event.target.value)
-    });
+    var property = this.copyProperty()
+    property.monthlyIncome = event.target.value;
+    this.setState({property})
   }
+
+  handleMortgageFloatChange(event) {
+    var property = this.copyProperty();
+    property.mortgage[event.target.name] = parseFloat(event.target.value)
+    this.setState({property})  
+  }
+
+  handleOperatingCostsFloatChange(event) {
+    var property = this.copyProperty();
+    property.operatingCosts[event.target.name] = parseFloat(event.target.value)
+    this.setState({property})  
+  }
+
   saveProperty(event) {
-    console.log(this.state)
+    this.props.addPropertyToList(this.state.property)
   }
 
   render() {
     return (
       <div className="container-fluid form">
-        
+
         <button className="saveButton" onClick={this.saveProperty}>Save</button>
+        {/* TODO */}
         {/* <button className="saveButton" onClick={this.saveProperty}>Duplicate</button>
         <button className="saveButton" onClick={this.saveProperty}>Delete</button> */}
+
+        <br></br>
+
         <div className="row">
           <div className="">Address:</div>
-            <input
-              className="col-md-6"
-              type="text"
-              name="address"
-              value={this.state.general.address}
-              onChange={this.handleChange}
-            />
+          <input
+            className="col-md-6"
+            type="text"
+            name="address"
+            value={this.state.property.address}
+            onChange={this.handleAddressChange}
+          />
         </div>
-        
+
         <br></br>
 
         {/* Mortgage Expenses */}
         <div className='logic-section col-lg-6'>
           <MortgageCalculator
-            stateProp={Object.assign({}, this.state.mortgage)}
-            onClick={this.handleFloatChange}
+            stateProp={Object.assign({}, this.state.property.mortgage)}
+            onFloatChange={this.handleMortgageFloatChange}
           />
           <div className='totals'>
             Monthly Payment: <Currency value={this.calculatePayment()}> </Currency>
@@ -87,15 +115,15 @@ class Form extends Component {
         {/* Operating Expenses */}
         <div className='logic-section col-lg-6'>
           <OperatingExpenses
-            stateProp={Object.assign({}, this.state.operatingCosts)}
-            onClick={this.handleFloatChange}
+            operatingCosts={Object.assign({}, this.state.property.operatingCosts)}
+            onFloatChange={this.handleOperatingCostsFloatChange}
           />
           <div className='totals'>
             Operating Expenses: <Currency value={this.calculateOperatingExpenses()}> </Currency>
           </div>
         </div>
-        
-        <hr/>
+
+        <hr />
 
         {/* Totals! */}
         <form>
@@ -104,12 +132,12 @@ class Form extends Component {
             <p>Monthly Rent Collected:</p>
             <input
               type="number"
-              name="rent"
-              value={this.state.general.monthlyIncome}
+              name="monthlyIncome"
+              value={this.state.property.monthlyIncome}
               onChange={this.handleFloatChange}
             />{" "}
           </label>
-          
+
           <label>
             <p>Monthly Cash Flow:{" "}</p>
             <p style={this.getCashFlowStyle()}>
@@ -131,12 +159,16 @@ class Form extends Component {
             <Currency value={this.calculateYearlyIncome()}> </Currency>
           </div>
         </form>
-        <hr/>
+
+        <hr />
+
+        {/* Down Payment Calc */}
         <form>
           <DownPayment yearlyIncome={this.calculateYearlyIncome()}>
             {" "}
           </DownPayment>{" "}
         </form>
+
         {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
         {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
       </div>
@@ -144,52 +176,52 @@ class Form extends Component {
   }
 
   calculatePayment() {
-    const apr = this.state.mortgage.interest / 1200;
-    const term = this.state.mortgage.paymentFreqPerYear * this.state.mortgage.mortgageLengthYears;
+    const apr = this.state.property.mortgage.interest / 1200;
+    const term = this.state.property.mortgage.paymentFreqPerYear * this.state.property.mortgage.mortgageLengthYears;
     var payment =
-      (this.state.mortgage.principal * (apr * Math.pow(1 + apr, term))) /
+      (this.state.property.mortgage.principal * (apr * Math.pow(1 + apr, term))) /
       (Math.pow(1 + apr, term) - 1);
     return payment;
   }
 
   calculateBalance() {
-    const apr = this.state.mortgage.interest / 1200;
-    const term = this.state.mortgage.paymentFreqPerYear * this.state.mortgage.mortgageLengthYears;
+    const apr = this.state.property.mortgage.interest / 1200;
+    const term = this.state.property.mortgage.paymentFreqPerYear * this.state.property.mortgage.mortgageLengthYears;
     return (
-      this.state.mortgage.principal *
+      this.state.property.mortgage.principal *
       ((Math.pow(1 + apr, term) - Math.pow(1 + apr, 12)) /
         (Math.pow(1 + apr, term) - 1))
     );
   }
 
   calculateEquityGainedAfterYear() {
-    return this.state.mortgage.principal - this.calculateBalance();
+    return this.state.property.mortgage.principal - this.calculateBalance();
   }
 
   calculateOperatingExpenses() {
     return (
-      this.state.operatingCosts.utilities.valueOf() +
-      this.state.operatingCosts.propertyTax +
-      this.state.operatingCosts.insurance +
-      this.state.operatingCosts.maintenance +
+      this.state.property.operatingCosts.utilities.valueOf() +
+      this.state.property.operatingCosts.propertyTax +
+      this.state.property.operatingCosts.insurance +
+      this.state.property.operatingCosts.maintenance +
       this.calculatePayment()
     );
   }
 
   calculateCashFlow() {
-    return this.state.general.monthlyIncome - this.calculateOperatingExpenses();
+    return this.state.property.monthlyIncome - this.calculateOperatingExpenses();
   }
 
   getCashFlowStyle() {
-    return this.state.general.monthlyIncome - this.calculateOperatingExpenses() > 0
+    return this.state.property.monthlyIncome - this.calculateOperatingExpenses() > 0
       ? {
-          color: "green",
-          display: "inline"
-        }
+        color: "green",
+        display: "inline"
+      }
       : {
-          color: "red",
-          display: "inline"
-        };
+        color: "red",
+        display: "inline"
+      };
   }
 
   calculateYearlyIncome() {

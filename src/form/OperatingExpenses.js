@@ -11,8 +11,8 @@ class OperatingExpenses extends Component {
             className="from-control col-md-6"
             type="number"
             name="utilities"
-            value={this.props.stateProp.utilities}
-            onChange={this.props.onClick}
+            value={this.props.operatingCosts.utilities}
+            onChange={this.props.onFloatChange}
           />
         </div>
 
@@ -22,8 +22,8 @@ class OperatingExpenses extends Component {
             className="from-control col-md-6"
             type="number"
             name="propertyTax"
-            value={this.props.stateProp.propertyTax}
-            onChange={this.props.onClick}
+            value={this.props.operatingCosts.propertyTax}
+            onChange={this.props.onFloatChange}
           />
         </div>
 
@@ -33,8 +33,8 @@ class OperatingExpenses extends Component {
             className="from-control col-md-6"
             type="number"
             name="insurance"
-            value={this.props.stateProp.insurance}
-            onChange={this.props.onClick}
+            value={this.props.operatingCosts.insurance}
+            onChange={this.props.onFloatChange}
           />
         </div>
 
@@ -49,8 +49,8 @@ class OperatingExpenses extends Component {
             className="from-control col-md-6"
             type="number"
             name="maintenance"
-            value={this.props.stateProp.maintenance}
-            onChange={this.props.onClick}
+            value={this.props.operatingCosts.maintenance}
+            onChange={this.props.onFloatChange}
           />
         </div>
       </form>
