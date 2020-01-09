@@ -21,41 +21,11 @@ class Form extends Component {
     this.saveProperty = this.saveProperty.bind(this);
   }
 
-  copyProperty(){
-    return Object.assign({},{
-      mortgage: this.state.property.mortgage,
-      operatingCosts: this.state.property.operatingCosts,
-      monthlyIncome: this.state.property.monthlyIncome,
-      address: this.state.property.address
-    })
-  }
-
-  handleAddressChange(event) {
-    var property = this.copyProperty()
-    property.address = event.target.value;
-    this.setState({property})
-  }
-
-  handleFloatChange(event) {
-    var property = this.copyProperty()
-    property.monthlyIncome = event.target.value;
-    this.setState({property})
-  }
-
-  handleMortgageFloatChange(event) {
-    var property = this.copyProperty();
-    property.mortgage[event.target.name] = parseFloat(event.target.value)
-    this.setState({property})  
-  }
-
-  handleOperatingCostsFloatChange(event) {
-    var property = this.copyProperty();
-    property.operatingCosts[event.target.name] = parseFloat(event.target.value)
-    this.setState({property})  
-  }
-
-  saveProperty(event) {
-    this.props.addPropertyToList(this.state.property)
+  // Update State whens App.js passes in new Property
+  UNSAFE_componentWillReceiveProps(nextProps) {
+      this.setState({
+        property: Object.assign({},nextProps.property)
+      });
   }
 
   render() {
@@ -157,6 +127,44 @@ class Form extends Component {
         {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
       </div>
     );
+  }
+
+  copyProperty(){
+    return JSON.parse(JSON.stringify({
+      mortgage: this.state.property.mortgage,
+      operatingCosts: this.state.property.operatingCosts,
+      monthlyIncome: this.state.property.monthlyIncome,
+      address: this.state.property.address,
+      id: this.state.property.id
+    }))
+  }
+
+  handleAddressChange(event) {
+    var property = this.copyProperty()
+    property.address = event.target.value;
+    this.setState({property})
+  }
+
+  handleFloatChange(event) {
+    var property = this.copyProperty()
+    property.monthlyIncome = event.target.value;
+    this.setState({property})
+  }
+
+  handleMortgageFloatChange(event) {
+    var property = this.copyProperty();
+    property.mortgage[event.target.name] = parseFloat(event.target.value)
+    this.setState({property})  
+  }
+
+  handleOperatingCostsFloatChange(event) {
+    var property = this.copyProperty();
+    property.operatingCosts[event.target.name] = parseFloat(event.target.value)
+    this.setState({property})  
+  }
+
+  saveProperty(event) {
+    this.props.addPropertyToList(this.state.property)
   }
 
   calculatePayment() {
