@@ -7,9 +7,9 @@ const emptyProperty = {
   monthlyIncome: 0,
   mortgage: {
     principal: 0,
-    mortgageLengthYears: 0,
-    paymentFreqPerYear: 0,
-    interest: 0.00,
+    mortgageLengthYears: 25,
+    paymentFreqPerYear: 12,
+    interest: 3.25,
   },
   operatingCosts: {
     utilities: 0,

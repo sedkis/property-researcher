@@ -59,7 +59,7 @@ class Form extends Component {
             onFloatChange={this.handleMortgageFloatChange}
           />
           <div className='totals'>
-            Monthly Payment: <Currency value={this.calculatePayment()}> </Currency>
+            Monthly Payment: <Currency value={this.calculateMortgagePayment()}> </Currency>
           </div>
           <div className='totals'>
             Equity gained per year: <Currency value={this.calculateEquityGainedAfterYear()}> </Currency>
@@ -146,18 +146,27 @@ class Form extends Component {
   }
 
   handleFloatChange(event) {
+    if (!parseFloat(event.target.value))
+      event.target.value = 0 
+
     var property = this.copyProperty()
-    property.monthlyIncome = event.target.value;
+    property.monthlyIncome = parseFloat(event.target.value)
     this.setState({property})
   }
 
   handleMortgageFloatChange(event) {
+    if (!parseFloat(event.target.value))
+      event.target.value = 0
+
     var property = this.copyProperty();
     property.mortgage[event.target.name] = parseFloat(event.target.value)
     this.setState({property})  
   }
 
   handleOperatingCostsFloatChange(event) {
+    if (!parseFloat(event.target.value))
+      event.target.value = 0
+
     var property = this.copyProperty();
     property.operatingCosts[event.target.name] = parseFloat(event.target.value)
     this.setState({property})  
@@ -167,7 +176,7 @@ class Form extends Component {
     this.props.addPropertyToList(this.state.property)
   }
 
-  calculatePayment() {
+  calculateMortgagePayment() {
     const apr = this.state.property.mortgage.interest / 1200;
     const term = this.state.property.mortgage.paymentFreqPerYear * this.state.property.mortgage.mortgageLengthYears;
     var payment =
@@ -192,16 +201,16 @@ class Form extends Component {
 
   calculateOperatingExpenses() {
     return (
-      this.state.property.operatingCosts.utilities.valueOf() +
+      this.state.property.operatingCosts.utilities +
       this.state.property.operatingCosts.propertyTax +
       this.state.property.operatingCosts.insurance +
       this.state.property.operatingCosts.maintenance +
-      this.calculatePayment()
+      this.state.property.operatingCosts.other
     );
   }
 
   calculateCashFlow() {
-    return this.state.property.monthlyIncome - this.calculateOperatingExpenses();
+    return this.state.property.monthlyIncome - this.calculateMortgagePayment() - this.calculateOperatingExpenses();
   }
 
   getCashFlowStyle() {

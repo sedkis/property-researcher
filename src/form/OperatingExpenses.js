@@ -40,11 +40,6 @@ class OperatingExpenses extends Component {
 
         <div className="row">
           <div className="col-md-6 text-right">Maintenance:</div>
-          {/* <select value={this.props.stateProp.paymentFreqPerYear} 
-                            onChange={this.props.stateProp.handlePaymentFreqChange}>
-                        <option value={'%'}>Percenteage</option>
-                        <option value={'$'}>Dollar Amount</option>
-                    </select> */}
           <input
             className="from-control col-md-6"
             type="number"
@@ -53,6 +48,18 @@ class OperatingExpenses extends Component {
             onChange={this.props.onFloatChange}
           />
         </div>
+
+        <div className="row">
+          <div className="col-md-6 text-right">Other:</div>
+          <input
+            className="from-control col-md-6"
+            type="number"
+            name="other"
+            value={this.props.operatingCosts.other}
+            onChange={this.props.onFloatChange}
+          />
+        </div>
+
       </form>
     );
   }
