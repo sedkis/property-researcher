@@ -34,7 +34,10 @@ class Form extends Component {
 
         <button className="saveButton" onClick={this.saveProperty}>Save</button>
         {/* TODO */}
+        {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
+        {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
         {/* <button className="saveButton" onClick={this.saveProperty}>Duplicate</button>
+        {/* <button className="saveButton" onClick={this.saveProperty}>Import from API?</button>
         <button className="saveButton" onClick={this.saveProperty}>Delete</button> */}
 
         <br></br>
@@ -112,16 +115,6 @@ class Form extends Component {
         </form>
 
         <hr />
-
-        {/* Down Payment Calc */}
-        {/* <form>
-          <DownPayment yearlyIncome={this.calculateYearlyIncome()}>
-            {" "}
-          </DownPayment>{" "}
-        </form> */}
-
-        {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
-        {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
       </div>
     );
   }
