@@ -61,9 +61,6 @@ class Form extends Component {
           <div className='totals'>
             Monthly Payment: <Currency value={this.calculateMortgagePayment()}> </Currency>
           </div>
-          <div className='totals'>
-            Equity gained per year: <Currency value={this.calculateEquityGainedAfterYear()}> </Currency>
-          </div>
         </div>
 
         {/* Operating Expenses */}
@@ -117,11 +114,11 @@ class Form extends Component {
         <hr />
 
         {/* Down Payment Calc */}
-        <form>
+        {/* <form>
           <DownPayment yearlyIncome={this.calculateYearlyIncome()}>
             {" "}
           </DownPayment>{" "}
-        </form>
+        </form> */}
 
         {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
         {/* Text results to me: <TextResults state={this.state}/> <button>bloop</button> */}{" "}
@@ -180,7 +177,7 @@ class Form extends Component {
     const apr = this.state.property.mortgage.interest / 1200;
     const term = this.state.property.mortgage.paymentFreqPerYear * this.state.property.mortgage.mortgageLengthYears;
     var payment =
-      (this.state.property.mortgage.principal * (apr * Math.pow(1 + apr, term))) /
+      (this.state.property.mortgage.principal - this.state.property.mortgage.downPayment)* (apr * Math.pow(1 + apr, term)) /
       (Math.pow(1 + apr, term) - 1);
     return payment;
   }

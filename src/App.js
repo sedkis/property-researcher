@@ -6,6 +6,7 @@ const emptyProperty = {
   address: "",
   monthlyIncome: 0,
   mortgage: {
+    downPayment: 0,
     principal: 0,
     mortgageLengthYears: 25,
     paymentFreqPerYear: 12,
