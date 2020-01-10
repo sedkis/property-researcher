@@ -2,7 +2,7 @@
   "name": "web-ui",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sedkis.github.io/property-calculator",
+  "homepage": ".",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.8.4",
