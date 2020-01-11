@@ -21,6 +21,7 @@ const emptyProperty = {
   }
 }
 
+const backendUrl = "http://properties.sedky.ca:8080"
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class App extends Component {
     this.newProperty = this.newProperty.bind(this);
 
     // get all properties on page load
-    fetch('http://localhost:8081/properties', {
+    fetch(backendUrl + '/properties', {
       method: 'GET',
       mode: 'cors'
     })
@@ -42,7 +43,21 @@ class App extends Component {
         this.setState({ properties: data })
       })
       .catch(console.log)
+
+      this.closeNav = this.closeNav.bind(this)
   }
+
+
+
+
+/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+closeNav() {
+  console.log('hello')
+  document.getElementById("panel").style.width = "0";
+  document.getElementById("panel").style.minWidth = "0";
+  document.getElementById("main-form").style.marginLeft = "auto";
+  document.getElementById("openBtn").style.visibility = "visible";
+}
 
   render() {
     return (
@@ -50,9 +65,10 @@ class App extends Component {
         <header className="App-header">
 
           {/* Side Panel */}
-          <div className="panel">
+          <div className="panel" id="panel">
+          <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
             <h4>Saved Properties</h4>
-            <button className="saveButton" onClick={this.newProperty}>New</button>
+            <button className="newButton" onClick={this.newProperty}>New</button>
             {this.getPanelContent()}
           </div>
 
@@ -81,7 +97,7 @@ class App extends Component {
 
   addPropertyToList(property) {
     // persist then show in browser
-    fetch('http://localhost:8081/saveproperty', {
+    fetch(backendUrl + '/saveproperty', {
       mode: 'cors',
       method: 'POST',
       headers: {
@@ -90,7 +106,7 @@ class App extends Component {
       body: JSON.stringify({ ...property })
     }).then((data) => {
       // If new property, add it to list
-      fetch('http://localhost:8081/properties', {
+      fetch(backendUrl + '/properties', {
         method: 'GET',
         mode: 'cors'
       })

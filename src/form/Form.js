@@ -21,6 +21,7 @@ class Form extends Component {
     this.saveProperty = this.saveProperty.bind(this);
   }
 
+
   // Update State whens App.js passes in new Property
   UNSAFE_componentWillReceiveProps(nextProps) {
       this.setState({
@@ -28,10 +29,18 @@ class Form extends Component {
       });
   }
 
+  openNav() {
+    document.getElementById("panel").style.width = "250px";
+    document.getElementById("panel").style.minWidth = "25vw";
+    document.getElementById("main-form").style.marginLeft = "25vw";
+    document.getElementById("openBtn").style.visibility = "hidden";
+  }
+
   render() {
     return (
-      <div className="container-fluid form">
+      <div className="container-fluid form" id="main-form">
 
+        <button id="openBtn" className="openbtn" onClick={this.openNav}>&#9776;</button>
         <button className="saveButton" onClick={this.saveProperty}>Save</button>
         {/* TODO */}
         {/* Email results to me: <EmailResults state={this.state}/> <button>bloop</button> */}{" "}
