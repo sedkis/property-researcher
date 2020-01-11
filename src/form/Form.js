@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import MortgageCalculator from "./MortgageCalculator";
 import OperatingExpenses from "./OperatingExpenses";
 import Currency from "../formatters/Currency";
-import DownPayment from "./DownPayment.js";
 import "./Form.css";
 class Form extends Component {
   constructor(props) {
@@ -108,17 +107,17 @@ class Form extends Component {
               <Currency value={this.calculateCashFlow()}> </Currency>
             </p>
           </label>
-          <h3> Yearly Turnover </h3>
+          <h3> Yearly Results </h3>
           <div className='totals'>
-            equity gain:{" "}
+            Equity Gain:{" "}
             <Currency value={this.calculateEquityGainedAfterYear()}>
               {" "}
             </Currency>{" "}
             <br />
-            cash flow gain:{" "}
+            Cash Income:{" "}
             <Currency value={this.calculateCashFlow() * 12}> </Currency>
             <br />
-            Yearly Net Income:{" "}
+            Net Gain:{" "}
             <Currency value={this.calculateYearlyIncome()}> </Currency>
           </div>
         </form>
@@ -213,7 +212,7 @@ class Form extends Component {
   }
 
   getCashFlowStyle() {
-    return this.state.property.monthlyIncome - this.calculateOperatingExpenses() > 0
+    return this.calculateCashFlow() >= 0
       ? {
         color: "green",
         display: "inline"
