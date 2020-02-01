@@ -66,7 +66,7 @@ closeNav() {
 
           {/* Side Panel */}
           <div className="panel" id="panel">
-          <button href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</button>
+          <button className="closebtn" onClick={this.closeNav}>&times;</button>
             <h4>Saved Properties</h4>
             <button className="newButton" onClick={this.newProperty}>New</button>
             {this.getPanelContent()}
